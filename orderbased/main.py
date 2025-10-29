@@ -26,7 +26,7 @@ class Order(BaseModel):
 
 @app.post("/place-order")
 def place_order(order: Order):
-    """Send an order message to the topic."""
+    
     try:
         with ServiceBusClient.from_connection_string(SERVICE_BUS_CONNECTION_STR) as sb_client:
             sender = sb_client.get_topic_sender(topic_name=TOPIC_NAME)
@@ -37,3 +37,4 @@ def place_order(order: Order):
         return {"status": "Order sent successfully", "order_id": order.order_id}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to send order: {e}")
+
